@@ -13,5 +13,17 @@
 }
 
 .item {
-	line-height: 10rem;
+	line-height: 5rem;
+}
+
+.item:disabled {
+	opacity: 0.3;
+}
+
+.inactive {
+	display: none;
+}
+
+#play-again.active {
+	display: inline-flex;
 }
