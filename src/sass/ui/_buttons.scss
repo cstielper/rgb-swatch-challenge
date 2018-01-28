@@ -1,0 +1,19 @@
+button {
+  color: #000;
+
+  &:disabled {
+    opacity: 0.3;
+  }
+}
+
+.tile {
+	line-height: 5rem;
+}
+
+.inactive {
+	display: none;
+}
+
+.active {
+	display: inline;
+}

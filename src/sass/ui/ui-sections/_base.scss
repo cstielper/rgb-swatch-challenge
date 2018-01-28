@@ -1,0 +1,17 @@
+/*--------------------------------------------------------------
+### Base
+--------------------------------------------------------------*/
+html, body {
+  height: 100%;
+}
+
+body {
+	background: $color__brand-1;
+  color: #FFF;
+}
+
+#app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

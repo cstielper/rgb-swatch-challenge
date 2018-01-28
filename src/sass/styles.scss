@@ -1,29 +1,17 @@
-.error {
-	color: red;
-	border: 1px solid red;
-}
+@import 'variables/variables';
+@import 'mixins/mixins';
 
-#grid {
-	text-align: center;
-	margin-bottom: 1.5rem;
-	display: grid;
-	grid-template-rows: repeat(2, 1fr);
-  grid-template-columns: repeat(4, 1fr);
-	grid-gap: 10px;
-}
+/*--------------------------------------------------------------
+# Normalize
+--------------------------------------------------------------*/
+@import 'normalize';
 
-.item {
-	line-height: 5rem;
-}
+/*--------------------------------------------------------------
+# Typography
+--------------------------------------------------------------*/
+@import 'typography/typography';
 
-.item:disabled {
-	opacity: 0.3;
-}
-
-.inactive {
-	display: none;
-}
-
-#play-again.active {
-	display: inline-flex;
-}
+/*--------------------------------------------------------------
+# UI
+--------------------------------------------------------------*/
+@import 'ui/ui';

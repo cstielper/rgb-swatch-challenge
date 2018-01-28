@@ -5,7 +5,7 @@ const UIElements = {
   grid: document.getElementById('grid'),
   gameSettingsForm: document.forms[name = 'game-settings'],
   cssClasses: {
-    tile: 'item',
+    tile: 'tile',
     active: 'active',
     inactive: 'inactive',
     error: 'is-danger',
@@ -149,7 +149,7 @@ class UI {
   static buildGrid(array) {
     array.forEach(val => {
       const item = document.createElement('button');
-      item.classList.add('item');
+      item.classList.add(UIElements.cssClasses.tile);
       item.style.backgroundColor = val;
       item.textContent = '?';
       UIElements.grid.appendChild(item);
