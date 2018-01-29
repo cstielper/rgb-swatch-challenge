@@ -1,19 +1,54 @@
 button {
+  -webkit-appearance: none;
+  border: 0;
+  padding: 0.25rem 1rem;
   color: #000;
+  background: #DEDEDE;
+  transition: opacity 0.25s;
 
   &:disabled {
     opacity: 0.3;
   }
+
+  &.lvl-select {
+    padding: 0;
+    margin: 0 0.5em;
+    font-family: $font__alt;
+    font-size: 1.375em;
+    background: transparent;
+    color: #FFF;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  }
+
+  &.winner {
+    animation: pulse 1s infinite;
+  }
+
+  &#play-again {
+    font-family: $font__alt;
+    font-size: 1.25em;
+    width: 50%;
+    margin: 0 auto;
+    background: $color__brand-2;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 1);
+    color: #FFF;
+    transform: scale(0, 0);
+    transition: transform 0.375s;
+
+    &.active {
+      transform: scale(1, 1);
+    }
+  }
 }
 
-.tile {
-	line-height: 5rem;
-}
-
-.inactive {
-	display: none;
-}
-
-.active {
-	display: inline;
+@keyframes pulse {
+  0% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.1, 1.1);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
 }

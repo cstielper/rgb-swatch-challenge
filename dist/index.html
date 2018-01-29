@@ -5,27 +5,31 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>RGB Swatch Picker</title>
-	<link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:200, 900|Rock+Salt" rel="stylesheet"> 
 	<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 	<div id="app">
 		<div id="user-info">
-			<span class="user-name">Jonathan</span>
-			<span class="user-score">Games Won: 12/67</span>
+			<div class="user-name">Jonathan</div>
+			<div class="user-score">
+				Games Won: <span>12 / 67</span>
+			</div>
 		</div>
-		<header class="content">
-			<h1 class="title">How Well Do You Know RGB Values?</h1>
-		</header>
+		<header></header>
 		<div id="messages"></div>
 		<form name="game-settings">
-			<p>Select Your Level</p>
-			<button class="lvl-select button is-primary" value="easy">Easy</button>
-			<button class="lvl-select button is-primary" value="medium">Medium</button>
-			<button class="lvl-select button is-primary" value="hard">Hard</button>
+			<fieldset>
+				<legend>Select Your Level:</legend>
+				<button class="lvl-select" value="easy">Easy</button>
+				<button class="lvl-select" value="medium">Medium</button>
+				<button class="lvl-select" value="hard">Hard</button>
+			</fieldset>
 		</form>
-		<button class="button is-primary inactive" id="play-again">Play Again?</button>
-		<div id="grid"></div>
+		<div class="grid-wrapper">
+			<div id="grid"></div>
+		</div>
+		<button id="play-again">Play Again?</button>
 	</div>
 	<script src="js/app.min.js"></script>
 </body>

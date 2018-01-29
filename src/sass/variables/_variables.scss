@@ -1,6 +1,32 @@
+/***** Break Points *****/
+$breakpoints: (
+	'x-small': 36em,
+	'small': 46.875em,
+	'medium': 59.375em,
+	'large': 75em,
+	'x-large': 90em,
+	'xx-large': 125em
+);
+
+$breakpoints_vert: (
+	'small': 44em,
+	'medium': 65em
+);
+
+/***** Measurements *****/
+$outer_spacing: (
+	'small': 1.5,
+	'medium': 2.25
+);
+
 /***** Colors *****/
 $color__brand-1: #39C4FC;
-$color__brand-2: #FF9C31;
+$color__brand-2: #FF7600;
+
+$color__warn: #FFAE42;
+$color__danger: #FF0000;
+$color__success: #5CB85C;
 
 /***** Typography *****/
-$font__alt:'Rock Salt', cursive;
+$font__main: 'Montserrat', sans-serif;
+$font__alt: 'Rock Salt', cursive;

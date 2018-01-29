@@ -45,7 +45,7 @@
 
 @mixin respond-to-vert($breakpoint) {
 	// Retrieves the value from the key
-	$value: map-get($breakpoints-vert, $breakpoint);
+	$value: map-get($breakpoints_vert, $breakpoint);
 
 	// If the key exists in the map
 	@if $value != null {
@@ -58,6 +58,28 @@
 // If the key doesn't exist in the map
 @else {
 	@warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
-		+ "Please make sure it is defined in `$breakpoints-vert` map.";
+		+ "Please make sure it is defined in `$breakpoints` map.";
+	}
+}
+
+// Outside padding
+@mixin padding-left-right($padding-sm: map-get($outer_spacing, small), $padding-lg: map-get($outer_spacing, medium)) {
+	padding-left: $padding-sm + rem;
+	padding-right: $padding-sm + rem;
+
+	@include respond-to(small) {
+		padding-left: $padding-lg + rem;
+		padding-right: $padding-lg + rem;
+	}
+}
+
+// Outside margin
+@mixin margin-left-right($margin-sm: map-get($outer_spacing, small), $margin-lg: map-get($outer_spacing, medium)) {
+	margin-left: $margin-sm + rem;
+	margin-right: $margin-sm + rem;
+
+	@include respond-to(small) {
+		margin-left: $margin-lg + rem;
+		margin-right: $margin-lg + rem;
 	}
 }

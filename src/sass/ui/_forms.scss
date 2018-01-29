@@ -1,0 +1,24 @@
+form.inactive {
+	display: none;
+}
+
+form.active {
+	display: inline;
+}
+
+legend {
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+form[name="game-settings"] {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+
+  legend {
+    width: 100%;
+    font-size: 1.25em;
+    letter-spacing: 1px;
+  }
+}

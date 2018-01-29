@@ -1,0 +1,33 @@
+#messages {
+  display: none;
+  @include margin-left-right;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.25rem;
+  font-weight: 900;
+  border-width: 4px;
+
+  &.active {
+    display: block;
+    border-style: solid;
+
+    &.warn, &.danger, &.success {
+      background: #FFF;
+    }
+
+    &.warn {
+      border-color: $color__warn;
+      color: $color__warn;
+    }
+
+    &.danger {
+      border-color: $color__danger;
+      color: $color__danger;
+    }
+
+    &.success {
+      border-color: $color__success;
+      color: $color__success;
+    }
+  }
+}

@@ -8,10 +8,9 @@ const UIElements = {
     tile: 'tile',
     active: 'active',
     inactive: 'inactive',
-    error: 'is-danger',
-    warn: 'is-warning',
-    success: 'is-success',
-    formActive: 'notification'
+    error: 'danger',
+    warn: 'warn',
+    success: 'success'
   }
 };
 
@@ -65,36 +64,29 @@ class Controls {
       if (gameSettings.guesses > 0) {
         if (evt.target.style.backgroundColor == gameSettings.answer) {
           Messages.generate(
-            'You Win',
-            UIElements.cssClasses.formActive + ' ' +
-              UIElements.cssClasses.success
+            'You Win!',
+            UIElements.cssClasses.active + ' ' + UIElements.cssClasses.success
           );
-          UI.revealWinner();
+          UI.disableBoard();
           UI.gameOver();
         } else {
           gameSettings.removeGuess();
           if (gameSettings.guesses == 0) {
             Messages.generate(
-              'Sorry, out of guesses',
-              UIElements.cssClasses.formActive + ' ' +
-                UIElements.cssClasses.error
+              'Sorry, out of guesses. Game over!',
+              UIElements.cssClasses.active + ' ' + UIElements.cssClasses.error
             );
+            UI.disableBoard();
             UI.revealWinner();
             UI.gameOver();
           } else {
             evt.target.setAttribute('disabled', true);
             Messages.generate(
               `Try again... ${gameSettings.guesses} guess(es) left.`,
-              UIElements.cssClasses.formActive + ' ' +
-                UIElements.cssClasses.warn
+              UIElements.cssClasses.active + ' ' + UIElements.cssClasses.warn
             );
           }
         }
-      } else {
-        Messages.generate(
-          'Sorry, out of guesses',
-          UIElements.cssClasses.formActive + ' ' + UIElements.cssClasses.error
-        );
       }
     }
   }
@@ -151,28 +143,41 @@ class UI {
       const item = document.createElement('button');
       item.classList.add(UIElements.cssClasses.tile);
       item.style.backgroundColor = val;
-      item.textContent = '?';
       UIElements.grid.appendChild(item);
     });
   }
 
   static askQuestion() {
-    const question = document.createElement('h3');
-    question.innerHTML = `Click on the color that has a value of: <strong>${gameSettings.answer}</strong>`;
-    //TODO: Add to UIElements
-    const node = UIElements.header;
-    node.appendChild(question);
+    const question = document.createElement('div');
+    question.setAttribute('class', 'game-question');
+    question.innerHTML = `Click on the color that has a value of: <span>${gameSettings.answer}</span>`;
+    UIElements.header.appendChild(question);
+    this.showTotalGuesses();
+  }
+
+  static showTotalGuesses() {
+    UIElements.msgPane.textContent = `Make a selection. You have ${gameSettings.guesses} guesses.`;
+    UIElements.msgPane.setAttribute('class', UIElements.cssClasses.active);
   }
 
   static showHideForm(form, className) {
     form.setAttribute('class', className);
   }
 
-  static revealWinner() {
+  static disableBoard() {
     const items = document.querySelectorAll(`.${UIElements.cssClasses.tile}`);
     items.forEach(item => {
       if (item.style.backgroundColor != gameSettings.answer) {
         item.setAttribute('disabled', true);
+      }
+    });
+  }
+
+  static revealWinner() {
+    const items = document.querySelectorAll(`.${UIElements.cssClasses.tile}`);
+    items.forEach(item => {
+      if (item.style.backgroundColor == gameSettings.answer) {
+        item.classList.add('winner');
       }
     });
   }

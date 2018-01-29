@@ -1,11 +1,29 @@
 /*--------------------------------------------------------------
 ### Game Play
 --------------------------------------------------------------*/
+.grid-wrapper {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	@include margin-left-right;
+}
+
 #grid {
-	text-align: center;
-	margin-bottom: 1.5rem;
-	display: grid;
-	grid-template-rows: repeat(2, 1fr);
-  grid-template-columns: repeat(4, 1fr);
-	grid-gap: 10px;
+	display: flex;
+	flex-wrap: wrap;
+
+	.tile {
+		flex: 1 1 22.5%;
+		position: relative;
+		padding: 0;
+		border-radius: 50%;
+		border: 3px solid #FFF;
+		margin: 0.25rem;
+		
+		&:after {
+			content: '';
+			float:left;
+			display: block;
+			padding-top: 100%;
+		}
+	}
 }

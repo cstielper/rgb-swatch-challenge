@@ -4,4 +4,19 @@
 #user-info {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-size: 0.875em;
+  border-bottom: 4px solid #FFF;
+  background: darken($color__brand-1, 25%);
+  box-shadow: 0 0 1em darken($color__brand-1, 30%);
+
+  .user-name, .user-score span {
+    font-family: $font__alt;
+  }
+
+  .user-score {
+    text-transform: uppercase;
+  }
 }
