@@ -1,9 +1,11 @@
 // Store UI elements and classes
 const UIElements = {
+  userPane: document.getElementById('user-info'),
   header: document.querySelector('header'),
   msgPane: document.getElementById('messages'),
   grid: document.getElementById('grid'),
-  gameSettingsForm: document.forms[name = 'game-settings'],
+  gameSettingsForm: document.getElementById('form-game-settings'),
+  userInfoForm: document.getElementById('form-user-info'),
   cssClasses: {
     tile: 'tile',
     active: 'active',
@@ -35,68 +37,13 @@ class Settings {
   }
 }
 
-// Game controls
-class Controls {
-  static startGame(level) {
-    if (gameModeOpts.hasOwnProperty(level)) {
-      // Create the colors for the game
-      const colors = Colors.generate(gameModeOpts[level].items);
-
-      // Update global game settings
-      gameSettings = new Settings(
-        gameModeOpts[level].items,
-        gameModeOpts[level].guesses,
-        colors[Helpers.createRandomNumber(0, gameModeOpts[level].items)]
-      );
-
-      // Build the UI
-      UI.buildGrid(colors);
-      UI.askQuestion();
-      UI.showHideForm(
-        UIElements.gameSettingsForm,
-        UIElements.cssClasses.inactive
-      );
-    }
-  }
-
-  static CheckTiles(evt) {
-    if (evt.target.classList.contains(UIElements.cssClasses.tile)) {
-      if (gameSettings.guesses > 0) {
-        if (evt.target.style.backgroundColor == gameSettings.answer) {
-          Messages.generate(
-            'You Win!',
-            UIElements.cssClasses.active + ' ' + UIElements.cssClasses.success
-          );
-          UI.disableBoard();
-          UI.gameOver();
-        } else {
-          gameSettings.removeGuess();
-          if (gameSettings.guesses == 0) {
-            Messages.generate(
-              'Sorry, out of guesses. Game over!',
-              UIElements.cssClasses.active + ' ' + UIElements.cssClasses.error
-            );
-            UI.disableBoard();
-            UI.revealWinner();
-            UI.gameOver();
-          } else {
-            evt.target.setAttribute('disabled', true);
-            Messages.generate(
-              `Try again... ${gameSettings.guesses} guess(es) left.`,
-              UIElements.cssClasses.active + ' ' + UIElements.cssClasses.warn
-            );
-          }
-        }
-      }
-    }
-  }
-
-  static resetGame(item) {
-    UIElements.grid.innerHTML = '';
-    UI.showHideForm(UIElements.gameSettingsForm, '');
-    UIElements.header.lastChild.remove();
-    Messages.clear();
-    item.classList.remove(UIElements.cssClasses.active);
+// Storage
+const lsKey = 'rgb-swatch-app';
+class LsObj {
+  constructor(userName, userWins, gamesPlayed) {
+    this.userName = userName;
+    this.wins = userWins;
+    this.games = gamesPlayed;
   }
 }
 
@@ -136,8 +83,89 @@ class Messages {
   }
 }
 
+// Game controls
+class Controls {
+  static startGame(level) {
+    if (gameModeOpts.hasOwnProperty(level)) {
+      // Create the colors for the game
+      const colors = Colors.generate(gameModeOpts[level].items);
+
+      // Update global game settings
+      gameSettings = new Settings(
+        gameModeOpts[level].items,
+        gameModeOpts[level].guesses,
+        colors[Helpers.createRandomNumber(0, gameModeOpts[level].items)]
+      );
+
+      // Build the UI
+      UI.buildGrid(colors);
+      UI.askQuestion();
+      UI.showHideForm(
+        UIElements.gameSettingsForm,
+        UIElements.cssClasses.inactive
+      );
+      UI.populateUserInfo();
+    }
+  }
+
+  static CheckTiles(evt) {
+    if (evt.target.classList.contains(UIElements.cssClasses.tile)) {
+      if (gameSettings.guesses > 0) {
+        if (evt.target.style.backgroundColor == gameSettings.answer) {
+          Messages.generate(
+            'You Win!',
+            UIElements.cssClasses.active + ' ' + UIElements.cssClasses.success
+          );
+          UI.disableBoard();
+          UI.gameOver();
+          LocalStorage.updateUser('win');
+          UI.populateUserInfo();
+        } else {
+          gameSettings.removeGuess();
+          if (gameSettings.guesses == 0) {
+            Messages.generate(
+              'Sorry, out of guesses. Game over!',
+              UIElements.cssClasses.active + ' ' + UIElements.cssClasses.error
+            );
+            UI.disableBoard();
+            UI.revealWinner();
+            UI.gameOver();
+            LocalStorage.updateUser('loss');
+            UI.populateUserInfo();
+          } else {
+            evt.target.setAttribute('disabled', true);
+            Messages.generate(
+              `Try again... ${gameSettings.guesses} guess(es) left.`,
+              UIElements.cssClasses.active + ' ' + UIElements.cssClasses.warn
+            );
+          }
+        }
+      }
+    }
+  }
+
+  static resetGame(item) {
+    UIElements.grid.innerHTML = '';
+    UI.showHideForm(UIElements.gameSettingsForm, UIElements.cssClasses.active);
+    UIElements.header.lastChild.remove();
+    Messages.clear();
+    item.classList.remove(UIElements.cssClasses.active);
+  }
+}
+
 // UI
+//TODO: Check to see if any of these can be refactored into another class
 class UI {
+  static populateUserInfo() {
+    const userInfo = JSON.parse(localStorage.getItem(lsKey));
+    UIElements.userPane.querySelector(
+      '.user-name'
+    ).textContent = userInfo.userName;
+    UIElements.userPane.querySelector(
+      '.user-score'
+    ).innerHTML = `Games won: <span>${userInfo.wins}</span> of <span>${userInfo.games}</span>`;
+  }
+
   static buildGrid(array) {
     array.forEach(val => {
       const item = document.createElement('button');
@@ -189,6 +217,32 @@ class UI {
   }
 }
 
+// Local storage
+class LocalStorage {
+  static getUser() {
+    if (localStorage.getItem(lsKey)) {
+      return true;
+    }
+    return false;
+  }
+
+  static setUser(field) {
+    const ls = new LsObj(field.value, 0, 0);
+    localStorage.setItem(lsKey, JSON.stringify(ls));
+    UI.showHideForm(UIElements.userInfoForm, UIElements.cssClasses.inactive);
+    UI.showHideForm(UIElements.gameSettingsForm, UIElements.cssClasses.active);
+  }
+
+  static updateUser(result) {
+    const info = JSON.parse(localStorage.getItem(lsKey));
+    info.games += 1;
+    if (result == 'win') {
+      info.wins += 1;
+    }
+    localStorage.setItem(lsKey, JSON.stringify(info));
+  }
+}
+
 // Event Listeners
 const lvlBtns = document.querySelectorAll('.lvl-select');
 lvlBtns.forEach(item => {
@@ -205,4 +259,19 @@ UIElements.grid.addEventListener('click', function(evt) {
 
 document.getElementById('play-again').addEventListener('click', function() {
   Controls.resetGame(this);
+});
+
+UIElements.userInfoForm.addEventListener('submit', function(evt) {
+  LocalStorage.setUser(document.querySelector('input[name="user-name"]'));
+  evt.preventDefault();
+});
+
+window.addEventListener('load', function() {
+  const ls = LocalStorage.getUser();
+  if (ls) {
+    UI.populateUserInfo();
+    UI.showHideForm(UIElements.gameSettingsForm, UIElements.cssClasses.active);
+  } else {
+    UI.showHideForm(UIElements.userInfoForm, UIElements.cssClasses.active);
+  }
 });

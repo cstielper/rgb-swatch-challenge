@@ -11,19 +11,25 @@
 <body>
 	<div id="app">
 		<div id="user-info">
-			<div class="user-name">Jonathan</div>
-			<div class="user-score">
-				Games Won: <span>12 / 67</span>
-			</div>
+			<div class="user-name"></div>
+			<div class="user-score"></div>
 		</div>
 		<header></header>
 		<div id="messages"></div>
-		<form name="game-settings">
+		<form name="form-game-settings" id="form-game-settings">
 			<fieldset>
 				<legend>Select Your Level:</legend>
 				<button class="lvl-select" value="easy">Easy</button>
 				<button class="lvl-select" value="medium">Medium</button>
 				<button class="lvl-select" value="hard">Hard</button>
+			</fieldset>
+		</form>
+		<form name="form-user-info" id="form-user-info">
+			<span class="intro">Looks like this is your first time here</span>
+			<fieldset>
+				<legend>Tell Us Your Name:</legend>
+				<input type="text" name="user-name">
+				<input type="Submit" class="submit active" value="Enter">
 			</fieldset>
 		</form>
 		<div class="grid-wrapper">
